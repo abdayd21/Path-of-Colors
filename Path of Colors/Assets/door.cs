@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class door : MonoBehaviour
 {
-    public bool locked;
-    public bool keyPickUp;
+    public bool locked = true;
     private Animator anim;
-    // Start is called before the first frame update
+    private Collider2D doorCollider;
+
     void Start()
     {
         anim = GetComponent<Animator>();
-        locked = true;
+        doorCollider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UnlockDoor()
     {
-        
+        anim.SetBool("Open", true);
+        locked = false;
+        doorCollider.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Key") && keyPickUp)
+        if (other.gameObject.CompareTag("Player"))
         {
-            anim.SetTrigger("Open");
-            locked = false;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Key") && keyPickUp)
-        {
-            anim.SetTrigger("Close");
-            locked = true;
+            if (locked)
+            {
+                // Kapý kilitliyse ve oyuncu kapýyý açmak için anahtar taþýmýyorsa, uyarý ver
+                Debug.Log("Kapý kilitli! Anahtarý bul ve kapýyý aç.");
+            }
+            else
+            {
+                anim.SetBool("Open", false);
+                locked = true;
+            }
         }
     }
 }

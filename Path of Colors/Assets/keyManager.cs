@@ -6,33 +6,27 @@ public class keyManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject door;
+    [SerializeField] Collider2D boxCollider;
     private Vector2 vel;
     public float smoothTime;
     public bool isPickedUp;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Vector3 offset = new Vector3(0, 1f, 0);
 
-    // Update is called once per frame
     void Update()
     {
-        if(isPickedUp)
+        if (isPickedUp)
         {
-            Vector3 offset = new Vector3(0,1.7f,0);
             transform.position = Vector2.SmoothDamp(transform.position, player.transform.position + offset, ref vel, smoothTime);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player")&&!isPickedUp)
+        if (other.gameObject.CompareTag("Player") && !isPickedUp)
         {
             isPickedUp = true;
-            door.GetComponent<door>().keyPickUp = true;
+            door.GetComponent<door>().UnlockDoor();
+            boxCollider.enabled = false;
         }
-
-
     }
 }
