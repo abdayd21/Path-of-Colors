@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1008,6 +1008,9 @@ TextureImporter:
       Blue_38: -370116627
       Blue_39: -1876120964
       Blue_4: -644743312
+      Blue_40: -445359758
+      Blue_41: 1310461786
+      Blue_42: -1592859161
       Blue_5: 1073377022
       Blue_6: 520750119
       Blue_7: 715849117
