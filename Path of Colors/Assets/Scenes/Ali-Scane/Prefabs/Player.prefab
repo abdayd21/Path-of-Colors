@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 766080989884833327}
   - component: {fileID: 1608157602775968886}
   - component: {fileID: 5133157465552568298}
+  - component: {fileID: 7622329387310655823}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -311,7 +312,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   jumpingPower: 16
-  rainbowKey: {fileID: 3664161211724505057, guid: 1e8c6922024c0ce47b954f313041963c, type: 3}
   rb: {fileID: 269188996425540936}
   groundCheck: {fileID: 2423697406587162818}
   groundLayer:
@@ -322,6 +322,20 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 72
+--- !u!114 &7622329387310655823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760793391416501520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b91ad33555f8d64d84470eab2025dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxhealth: 3
 --- !u!1 &3655998401471844496
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,6 @@ public class CharControl : MonoBehaviour
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
-    public GameObject rainbowKey;
 
     private bool isWallJumping;
     private float wallJumpingDirection;
