@@ -13,6 +13,8 @@ public class CharControl : MonoBehaviour
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
+    public GameObject rainbowKey;
+
     private bool isWallJumping;
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
@@ -110,7 +112,6 @@ public class CharControl : MonoBehaviour
             Flip(moveInput);
         }
     }
-
     private void FixedUpdate()
     {
         if (isDashing && !isWallJumping)

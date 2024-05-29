@@ -127,7 +127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2, y: 1.6}
+    oldSize: {x: 0.8, y: 1.0666667}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -311,16 +311,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   jumpingPower: 16
+  rainbowKey: {fileID: 3664161211724505057, guid: 1e8c6922024c0ce47b954f313041963c, type: 3}
   rb: {fileID: 269188996425540936}
   groundCheck: {fileID: 2423697406587162818}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   tr: {fileID: 1608157602775968886}
   wallCheck: {fileID: 5968728324900838289}
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
 --- !u!1 &3655998401471844496
 GameObject:
   m_ObjectHideFlags: 0

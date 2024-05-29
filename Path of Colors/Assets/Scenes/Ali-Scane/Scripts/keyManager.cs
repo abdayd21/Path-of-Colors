@@ -6,7 +6,6 @@ public class keyManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject door;
-    [SerializeField] Collider2D boxCollider;
     private Vector2 vel;
     public float smoothTime;
     public bool isPickedUp;
@@ -26,7 +25,6 @@ public class keyManager : MonoBehaviour
         {
             isPickedUp = true;
             door.GetComponent<door>().UnlockDoor();
-            boxCollider.enabled = false;
         }
     }
 }

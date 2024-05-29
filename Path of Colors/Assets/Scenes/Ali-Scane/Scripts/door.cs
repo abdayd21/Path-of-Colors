@@ -16,25 +16,31 @@ public class door : MonoBehaviour
 
     public void UnlockDoor()
     {
-        anim.SetBool("Open", true);
+        anim.SetTrigger("Open");
         locked = false;
+        doorCollider.isTrigger = true;
+    }
+
+    public void LockDoor()
+    {
+        anim.SetTrigger("Close");
+        locked = true;
         doorCollider.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !locked)
         {
-            if (locked)
-            {
-                // Kapý kilitliyse ve oyuncu kapýyý açmak için anahtar taþýmýyorsa, uyarý ver
-                Debug.Log("Kapý kilitli! Anahtarý bul ve kapýyý aç.");
-            }
-            else
-            {
-                anim.SetBool("Open", false);
-                locked = true;
-            }
+            UnlockDoor();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player") && !locked)
+        {
+            LockDoor();
         }
     }
 }
