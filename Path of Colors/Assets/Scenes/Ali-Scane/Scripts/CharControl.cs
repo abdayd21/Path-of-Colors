@@ -10,6 +10,7 @@ public class CharControl : MonoBehaviour
     private bool isFacingRight = true;
     private bool doubleJump;
 
+
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
@@ -20,6 +21,7 @@ public class CharControl : MonoBehaviour
     private float wallJumpingCounter;
     private float wallJumpingDuration = 1.5f;
     private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+
 
     private bool canDash = true;
     private bool isDashing;
@@ -35,6 +37,7 @@ public class CharControl : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
+    internal static GameObject currentControlledObject;
 
     private void Start()
     {
