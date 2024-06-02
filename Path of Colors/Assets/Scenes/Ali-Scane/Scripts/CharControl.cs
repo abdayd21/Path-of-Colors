@@ -10,10 +10,8 @@ public class CharControl : MonoBehaviour
     private bool isFacingRight = true;
     private bool doubleJump;
 
-
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
-
 
     private bool isWallJumping;
     private float wallJumpingDirection;
@@ -21,7 +19,6 @@ public class CharControl : MonoBehaviour
     private float wallJumpingCounter;
     private float wallJumpingDuration = 1.5f;
     private Vector2 wallJumpingPower = new Vector2(8f, 16f);
-
 
     private bool canDash = true;
     private bool isDashing;
@@ -39,6 +36,8 @@ public class CharControl : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     internal static GameObject currentControlledObject;
 
+    public bool isControlled = true;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -47,73 +46,83 @@ public class CharControl : MonoBehaviour
 
     void Update()
     {
-        if (isDashing)
+        // Toggle character control with the "E" key
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            return;
+            isControlled = !isControlled;
         }
 
-        float moveInput = horizonral = Input.GetAxisRaw("Horizontal");
-
-        if (moveInput == 0)
+        if (isControlled)
         {
-            anim.SetBool("isRunning", false);
-        }
-        else
-        {
-            anim.SetBool("isRunning", true);
-        }
-
-        if (IsGrounded() && !Input.GetButton("Jump"))
-        {
-            doubleJump = false;
-            anim.SetBool("isJumping", false); // Grounded olduðunda zýplama animasyonunu kapat
-            isWallJumping = false; // Grounded olduðunda duvar zýplamayý kapat
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (IsGrounded())
+            if (isDashing)
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-                doubleJump = true;
-                anim.SetBool("isJumping", true); // Ýlk zýplama baþladýðýnda animasyonu aç
+                return;
             }
-            else if (doubleJump && !isWallSliding)
+
+            float moveInput = horizonral = Input.GetAxisRaw("Horizontal");
+
+            if (moveInput == 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                anim.SetBool("isRunning", false);
+            }
+            else
+            {
+                anim.SetBool("isRunning", true);
+            }
+
+            if (IsGrounded() && !Input.GetButton("Jump"))
+            {
                 doubleJump = false;
-                anim.SetBool("isJumping", true); // Çift zýplama baþladýðýnda animasyonu aç
+                anim.SetBool("isJumping", false); // Grounded olduðunda zýplama animasyonunu kapat
+                isWallJumping = false; // Grounded olduðunda duvar zýplamayý kapat
             }
-        }
 
-        if (Input.GetButton("Jump") && !IsGrounded())
-        {
-            anim.SetBool("isJumping", true); // Havada olduðunda animasyonu aç
-        }
-
-        if (Input.GetButtonUp("Jump"))
-        {
-            anim.SetBool("isJumping", false); // Space tuþunu býrakýnca animasyonu kapat
-            if (rb.velocity.y > 0f)
+            if (Input.GetButtonDown("Jump"))
             {
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                if (IsGrounded())
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                    doubleJump = true;
+                    anim.SetBool("isJumping", true); // Ýlk zýplama baþladýðýnda animasyonu aç
+                }
+                else if (doubleJump && !isWallSliding)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                    doubleJump = false;
+                    anim.SetBool("isJumping", true); // Çift zýplama baþladýðýnda animasyonu aç
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
-        {
-            StartCoroutine(Dash());
-        }
+            if (Input.GetButton("Jump") && !IsGrounded())
+            {
+                anim.SetBool("isJumping", true); // Havada olduðunda animasyonu aç
+            }
 
-        WallSlide();
-        WallJump();
+            if (Input.GetButtonUp("Jump"))
+            {
+                anim.SetBool("isJumping", false); // Space tuþunu býrakýnca animasyonu kapat
+                if (rb.velocity.y > 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                }
+            }
 
-        // Flip kontrolü zýplama ve duvar zýplama sýrasýnda doðru yönü korumak için
-        if (!isWallJumping && !isWallSliding)
-        {
-            Flip(moveInput);
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+            {
+                StartCoroutine(Dash());
+            }
+
+            WallSlide();
+            WallJump();
+
+            // Flip kontrolü zýplama ve duvar zýplama sýrasýnda doðru yönü korumak için
+            if (!isWallJumping && !isWallSliding)
+            {
+                Flip(moveInput);
+            }
         }
     }
+
     private void FixedUpdate()
     {
         if (isDashing && !isWallJumping)

@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Key
   - Door
-  - Controllable
+  - soul
   layers:
   - Default
   - TransparentFX
