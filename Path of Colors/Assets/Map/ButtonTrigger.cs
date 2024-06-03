@@ -13,7 +13,7 @@ public class ButtonTrigger : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Controllable") || other.CompareTag("Player"))
+        if (other.CompareTag("soul") || other.CompareTag("Player"))
         {
             isPressed = true;
             anim.SetBool("OpenBut", true);
@@ -23,7 +23,7 @@ public class ButtonTrigger : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Controllable") || other.CompareTag("Player"))
+        if (other.CompareTag("soul") || other.CompareTag("Player"))
         {
             isPressed = false;
             anim.SetBool("OpenBut", false);

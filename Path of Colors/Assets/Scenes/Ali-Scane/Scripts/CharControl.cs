@@ -6,7 +6,7 @@ public class CharControl : MonoBehaviour
 {
     private float horizonral;
     public float speed = 8f;
-    public float jumpingPower = 16f;
+    public float jumpingPower = 1f;
     private bool isFacingRight = true;
     private bool doubleJump;
 
@@ -22,7 +22,7 @@ public class CharControl : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 24f;
+    private float dashingPower = 18f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
@@ -209,8 +209,7 @@ public class CharControl : MonoBehaviour
         // Hareket giriþine baðlý olarak karakterin yönünü hemen deðiþtir
         if (isFacingRight && moveInput < 0f || !isFacingRight && moveInput > 0f)
         {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
+            isFacingRight = !isFacingRight; Vector3 localScale = transform.localScale;
             localScale.x *= -1;
             transform.localScale = localScale;
         }
@@ -232,3 +231,4 @@ public class CharControl : MonoBehaviour
         canDash = true;
     }
 }
+
