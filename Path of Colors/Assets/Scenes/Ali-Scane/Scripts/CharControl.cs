@@ -37,7 +37,6 @@ public class CharControl : MonoBehaviour
     internal static GameObject currentControlledObject;
 
     public bool isControlled = true;
-
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -109,7 +108,6 @@ public class CharControl : MonoBehaviour
             WallSlide();
             WallJump();
 
-            // Flip kontrolü zýplama ve duvar zýplama sýrasýnda doðru yönü korumak için
             if (!isWallJumping && !isWallSliding)
             {
                 Flip(moveInput);
@@ -200,7 +198,6 @@ public class CharControl : MonoBehaviour
 
     private void Flip(float moveInput)
     {
-        // Hareket giriþine baðlý olarak karakterin yönünü hemen deðiþtir
         if (isFacingRight && moveInput < 0f || !isFacingRight && moveInput > 0f)
         {
             isFacingRight = !isFacingRight; Vector3 localScale = transform.localScale;
