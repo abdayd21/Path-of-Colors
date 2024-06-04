@@ -6,11 +6,13 @@ public class ParticleController : MonoBehaviour
 {
     [Header("Movement Particle")]
     [SerializeField] ParticleSystem movementParticle;
+
     [Range(0,10)]
     [SerializeField] int occurAfterVlecity;
 
     [Range(0,0.2f)]
     [SerializeField] float dusutFormationPeriod;
+
     [SerializeField] Rigidbody2D rb;
 
     float counter;

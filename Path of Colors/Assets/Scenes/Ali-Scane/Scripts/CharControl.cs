@@ -37,6 +37,7 @@ public class CharControl : MonoBehaviour
     internal static GameObject currentControlledObject;
 
     public bool isControlled = true;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
