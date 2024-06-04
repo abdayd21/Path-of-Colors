@@ -18,7 +18,7 @@ public class CharControl : MonoBehaviour
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 1.5f;
-    private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+    private Vector2 wallJumpingPower = new Vector2(12f, 24f);
 
     private bool canDash = true;
     private bool isDashing;
