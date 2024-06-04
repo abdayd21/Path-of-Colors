@@ -46,12 +46,6 @@ public class CharControl : MonoBehaviour
 
     void Update()
     {
-        // Toggle character control with the "E" key
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            isControlled = !isControlled;
-        }
-
         if (isControlled)
         {
             if (isDashing)
@@ -231,4 +225,3 @@ public class CharControl : MonoBehaviour
         canDash = true;
     }
 }
-

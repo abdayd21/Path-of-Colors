@@ -5,8 +5,10 @@ public class ControlSwitch : MonoBehaviour
 {
     private GameObject player;
     private CharControl playerController;
+    private SoulController[] soulControllers;
     private SoulController currentSoulController;
-    private bool canSwitch = false;
+    private bool isSoulControlled = false;
+    public float switchDistance = 5f;
 
     void Start()
     {
@@ -26,42 +28,44 @@ public class ControlSwitch : MonoBehaviour
         {
             Debug.Log("CharacterController script found on the player.");
         }
+
+        // Tüm soul objelerini bul
+        soulControllers = FindObjectsOfType<SoulController>();
     }
 
     void Update()
     {
-        if (canSwitch && Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !isSoulControlled)
         {
             Debug.Log("E key pressed, attempting to switch control.");
-            StartCoroutine(SwitchControl(currentSoulController.gameObject));
+
+            SoulController closestSoul = null;
+            float closestDistance = switchDistance;
+
+            // En yakýn soul nesnesini bul
+            foreach (SoulController soul in soulControllers)
+            {
+                float distance = Vector3.Distance(player.transform.position, soul.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestSoul = soul;
+                    closestDistance = distance;
+                }
+            }
+
+            if (closestSoul != null)
+            {
+                StartCoroutine(SwitchControl(closestSoul.gameObject));
+            }
+            else
+            {
+                Debug.Log("No soul object within range to switch control.");
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (isSoulControlled && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("E key pressed, but cannot switch control.");
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("OnTriggerEnter2D called with object: " + other.name);
-
-        if (other.CompareTag("soul"))
-        {
-            Debug.Log("Entered trigger with a soul object.");
-            currentSoulController = other.GetComponent<SoulController>();
-            canSwitch = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        Debug.Log("OnTriggerExit2D called with object: " + other.name);
-
-        if (other.CompareTag("soul"))
-        {
-            Debug.Log("Exited trigger with a soul object.");
-            canSwitch = false;
-            currentSoulController = null;
+            Debug.Log("E key pressed, switching control back to player.");
+            SwitchControlBack();
         }
     }
 
@@ -78,16 +82,28 @@ public class ControlSwitch : MonoBehaviour
         soulController.isControlled = true;
         soulController.enabled = true;
 
-        yield return new WaitForSeconds(5f);
+        currentSoulController = soulController;
+        isSoulControlled = true;
 
-        Debug.Log("Switching control back to player.");
+        yield return null;
+    }
 
-        // Soul nesnesinin kontrolünü kapat
-        soulController.isControlled = false;
-        soulController.enabled = false;
+    void SwitchControlBack()
+    {
+        if (currentSoulController != null)
+        {
+            Debug.Log("Switching control back to player.");
 
-        // Karakterin kontrolünü aç
-        playerController.isControlled = true;
-        playerController.enabled = true;
+            // Soul nesnesinin kontrolünü kapat
+            currentSoulController.isControlled = false;
+            currentSoulController.enabled = false;
+
+            // Karakterin kontrolünü aç
+            playerController.isControlled = true;
+            playerController.enabled = true;
+
+            isSoulControlled = false;
+            currentSoulController = null;
+        }
     }
 }

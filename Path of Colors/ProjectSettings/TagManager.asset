@@ -7,6 +7,8 @@ TagManager:
   - Key
   - Door
   - soul
+  - Controllable
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

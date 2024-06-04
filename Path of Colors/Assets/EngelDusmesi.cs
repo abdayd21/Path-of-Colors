@@ -10,7 +10,7 @@ public class EngelDusmesi : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Çarpýþma yapan nesnenin "Player" etiketine sahip olup olmadýðýný kontrol ederiz
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.CompareTag("soul"))
         {
             // Hedef Rigidbody'nin bodyType'ýný Kinematic'ten Dynamic'e deðiþtiririz
             targetRigidbody.bodyType = RigidbodyType2D.Dynamic;
