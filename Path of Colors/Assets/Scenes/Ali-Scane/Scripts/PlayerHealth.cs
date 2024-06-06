@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public int health;
     public int maxhealth = 3;
+    
 
     public SpriteRenderer playerSr;
     public CharControl playerMovement;
@@ -13,9 +14,10 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         health = maxhealth;
+        
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount )
     {
         health -= amount;
         if(health <= 0)
@@ -23,6 +25,11 @@ public class PlayerHealth : MonoBehaviour
             playerSr.enabled = false;
             playerMovement.enabled = false;
         }
+
+        
     }
 
 }
+    
+
+

@@ -9,6 +9,7 @@ TagManager:
   - soul
   - Controllable
   - CheckPoint
+  - Ground
   layers:
   - Default
   - TransparentFX
