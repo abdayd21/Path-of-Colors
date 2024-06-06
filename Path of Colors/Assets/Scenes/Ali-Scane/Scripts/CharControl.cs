@@ -173,7 +173,7 @@ public class CharControl : MonoBehaviour
             {
                 isFacingRight = !isFacingRight;
                 Vector3 localScale = transform.localScale;
-                localScale.x *= -1f;
+                localScale.z *= -1f;
                 transform.localScale = localScale;
             }
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
@@ -193,6 +193,9 @@ public class CharControl : MonoBehaviour
     {
         isWallJumping = false;
     }
+
+
+
 
     private void Flip(float moveInput)
     {
