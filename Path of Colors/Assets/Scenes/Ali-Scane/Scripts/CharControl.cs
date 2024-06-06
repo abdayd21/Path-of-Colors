@@ -18,7 +18,7 @@ public class CharControl : MonoBehaviour
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 1.5f;
-    private Vector2 wallJumpingPower = new Vector2(12f, 24f);
+    public Vector2 wallJumpingPower = new Vector2(12f, 24f);
 
     private bool canDash = true;
     private bool isDashing;
@@ -83,7 +83,7 @@ public class CharControl : MonoBehaviour
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
                     doubleJump = false;
-                    anim.SetBool("isJumping", true); // Çift zýplama baþladýðýnda animasyonu aç
+                    anim.SetTrigger("DoubleJump"); // Çift zýplama baþladýðýnda animasyonu aç
                 }
             }
 
@@ -108,11 +108,6 @@ public class CharControl : MonoBehaviour
 
             WallSlide();
             WallJump();
-
-            if (!isWallJumping && !isWallSliding)
-            {
-                Flip(moveInput);
-            }
         }
     }
 
@@ -123,6 +118,8 @@ public class CharControl : MonoBehaviour
             return;
         }
         rb.velocity = new Vector2(horizonral * speed, rb.velocity.y);
+
+        Flip(horizonral); // Flip fonksiyonunu burada çaðýrýyoruz
     }
 
     private bool IsGrounded()
@@ -201,11 +198,11 @@ public class CharControl : MonoBehaviour
     {
         if (isFacingRight && moveInput < 0f || !isFacingRight && moveInput > 0f)
         {
-            isFacingRight = !isFacingRight; Vector3 localScale = transform.localScale;
-            localScale.x *= -1;
-            transform.localScale = localScale;
+            isFacingRight = !isFacingRight;
+            transform.Rotate(0f, 180f, 0f);  // Y ekseni etrafýnda 180 derece döndür
         }
     }
+
 
     private IEnumerator Dash()
     {
