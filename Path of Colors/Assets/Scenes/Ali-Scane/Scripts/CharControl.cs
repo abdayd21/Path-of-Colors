@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharControl : MonoBehaviour
 {
-    private float horizonral;
+    private float horizontal;
     public float speed = 8f;
     public float jumpingPower = 1f;
     private bool isFacingRight = true;
@@ -53,7 +53,7 @@ public class CharControl : MonoBehaviour
                 return;
             }
 
-            float moveInput = horizonral = Input.GetAxisRaw("Horizontal");
+            float moveInput = horizontal = Input.GetAxisRaw("Horizontal");
 
             if (moveInput == 0)
             {
@@ -94,7 +94,7 @@ public class CharControl : MonoBehaviour
 
             if (Input.GetButtonUp("Jump"))
             {
-                anim.SetBool("isJumping", false); // Space tuþunu býrakýnca animasyonu kapat
+                anim.SetTrigger("isJumping"); // Space tuþunu býrakýnca animasyonu kapat
                 if (rb.velocity.y > 0f)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -117,9 +117,9 @@ public class CharControl : MonoBehaviour
         {
             return;
         }
-        rb.velocity = new Vector2(horizonral * speed, rb.velocity.y);
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
-        Flip(horizonral); // Flip fonksiyonunu burada çaðýrýyoruz
+        Flip(horizontal); // Flip fonksiyonunu burada çaðýrýyoruz
     }
 
     private bool IsGrounded()
@@ -182,7 +182,7 @@ public class CharControl : MonoBehaviour
         // Karþý duvara zýplama kontrolü
         if (IsWalled() && !isWallJumping && !IsGrounded() && Input.GetButtonDown("Jump"))
         {
-            float oppositeDirection = -Mathf.Sign(horizonral);
+            float oppositeDirection = -Mathf.Sign(horizontal);
             rb.velocity = new Vector2(wallJumpingPower.x * oppositeDirection, wallJumpingPower.y);
             isWallJumping = true;
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
@@ -220,3 +220,4 @@ public class CharControl : MonoBehaviour
         canDash = true;
     }
 }
+
