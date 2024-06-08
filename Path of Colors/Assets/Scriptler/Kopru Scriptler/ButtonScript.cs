@@ -11,7 +11,7 @@ public class ButtonScript : MonoBehaviour
      Animator anim;
 void Start()
 {
-    anim.GetComponent<Animator>();
+    anim=GetComponent<Animator>();
 }
     void Update()
     {

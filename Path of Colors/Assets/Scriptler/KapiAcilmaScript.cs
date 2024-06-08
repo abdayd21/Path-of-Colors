@@ -14,7 +14,7 @@ public class KapiAcilmaScript : MonoBehaviour
 
 void Start () 
 {
-    anim.GetComponent<Animator>();
+    anim=GetComponent<Animator>();
 }
 
     void Update()
