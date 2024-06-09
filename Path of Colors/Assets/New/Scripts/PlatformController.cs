@@ -2,184 +2,161 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// PlatformController sınıfı, bir platformun hareket ve çökme davranışlarını kontrol eder
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Collider2D))]
 public class PlatformController : MonoBehaviour {
 
-    public PlatformWaypoint currentWaypoint;
-    public float maxSpeed;
-    public float accelerationDistance;
-    public float decelerationDistance;
-    public float waitTime;
-    public float crumbleTime;
-    public float restoreTime;
-    public bool onlyPlayerCrumble;
+    public PlatformWaypoint currentWaypoint; // Platformun şu anki hedef noktasını belirler
+    public float maxSpeed; // Platformun maksimum hızı
+    public float accelerationDistance; // Platformun hızlanmaya başladığı mesafe
+    public float decelerationDistance; // Platformun yavaşlamaya başladığı mesafe
+    public float waitTime; // Platformun hedef noktada beklediği süre
+    public float crumbleTime; // Platformun çökme süresi
+    public float restoreTime; // Platformun yeniden oluşma süresi
+    public bool onlyPlayerCrumble; // Sadece oyuncunun platformu çökertip çökertemeyeceğini belirler
 
     [SerializeField]
-    private Vector2 speed = Vector2.zero;
-    private float currentWaitTime = 0;
-    private float currentCrumbleTime = 0;
-    private float currentRestoreTime = 0;
-    private bool crumbled = false;
-    private List<ObjectController2D> objs = new List<ObjectController2D>();
-    private Animator animator;
-    private Collider2D myCollider;
-    private PhysicsConfig pConfig;
+    private Vector2 speed = Vector2.zero; // Platformun hızı
+    private float currentWaitTime = 0; // Platformun beklediği süreyi izlemek için
+    private float currentCrumbleTime = 0; // Platformun çökme süresini izlemek için
+    private float currentRestoreTime = 0; // Platformun yeniden oluşma süresini izlemek için
+    private bool crumbled = false; // Platformun çökmüş olup olmadığını izlemek için
+    private List<ObjectController2D> objs = new List<ObjectController2D>(); // Platformla temas eden objelerin listesi
+    private Animator animator; // Platformun animatör bileşeni
+    private Collider2D myCollider; // Platformun collider bileşeni
+    private PhysicsConfig pConfig; // Fizik konfigürasyonları
 
-    private static readonly string ANIMATION_CRUMBLING = "crumbling";
-    private static readonly string ANIMATION_CRUMBLE = "crumble";
-    private static readonly string ANIMATION_RESTORE = "restore";
+    private static readonly string ANIMATION_CRUMBLING = "crumbling"; // Çökme animasyonu tetikleyicisi
+    private static readonly string ANIMATION_CRUMBLE = "crumble"; // Çökme animasyonu tetikleyicisi
+    private static readonly string ANIMATION_RESTORE = "restore"; // Yeniden oluşma animasyonu tetikleyicisi
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
+    // Start metodu, oyun nesnesi etkinleştirildiğinde bir kez çağrılır.
     void Start() {
-        animator = GetComponent<Animator>();
-        myCollider = GetComponent<Collider2D>();
-        pConfig = GameObject.FindObjectOfType<PhysicsConfig>();
+        animator = GetComponent<Animator>(); // Animator bileşenini alır
+        myCollider = GetComponent<Collider2D>(); // Collider2D bileşenini alır
+        pConfig = GameObject.FindObjectOfType<PhysicsConfig>(); // Scene'deki PhysicsConfig nesnesini bulur
         if (!pConfig) {
+            // Eğer PhysicsConfig nesnesi yoksa yeni bir tane oluşturur ve uyarı mesajı verir.
             pConfig = (PhysicsConfig) new GameObject().AddComponent(typeof(PhysicsConfig));
             pConfig.gameObject.name = "Physics Config";
             Debug.LogWarning("PhysicsConfig not found on the scene! Using default config.");
         }
     }
 
-    /// <summary>
-    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
-    /// </summary>
+    // FixedUpdate metodu, belirli zaman aralıklarıyla sürekli olarak çağrılır. Fizik işlemleri burada yapılır.
     void FixedUpdate() {
         if (crumbled) {
             if (currentRestoreTime > 0) {
-                currentRestoreTime -= Time.fixedDeltaTime;
+                currentRestoreTime -= Time.fixedDeltaTime; // Restore zamanını azaltır
                 if (currentRestoreTime <= 0) {
-                    Restore();
+                    Restore(); // Zaman dolduğunda platformu yeniden oluşturur
                 }
             }
         } else {
             if (currentCrumbleTime > 0) {
-                currentCrumbleTime -= Time.fixedDeltaTime;
+                currentCrumbleTime -= Time.fixedDeltaTime; // Çökme zamanını azaltır
                 if (currentCrumbleTime <= 0) {
                     crumbled = true;
-                    animator.SetTrigger(ANIMATION_CRUMBLE);
-                    myCollider.enabled = false;
+                    animator.SetTrigger(ANIMATION_CRUMBLE); // Çökme animasyonunu tetikler
+                    myCollider.enabled = false; // Collider'ı devre dışı bırakır
                     if (restoreTime > 0) {
-                        currentRestoreTime = restoreTime;
+                        currentRestoreTime = restoreTime; // Yeniden oluşma zamanını ayarlar
                     }
                 }
             }
             if (currentWaypoint) {
                 if (currentWaitTime > 0) {
-                    currentWaitTime -= Time.fixedDeltaTime;
+                    currentWaitTime -= Time.fixedDeltaTime; // Bekleme zamanını azaltır
                     return;
                 }
-                Vector2 distance = currentWaypoint.transform.position - transform.position;
+                Vector2 distance = currentWaypoint.transform.position - transform.position; // Hedef noktaya olan mesafeyi hesaplar
                 if (distance.magnitude <= decelerationDistance) {
                     if (distance.magnitude > 0) {
-                        speed -= Time.fixedDeltaTime * distance.normalized * maxSpeed * maxSpeed /
-                            (2 * decelerationDistance);
+                        speed -= Time.fixedDeltaTime * distance.normalized * maxSpeed * maxSpeed / (2 * decelerationDistance); // Yavaşlama hesaplamaları
                     } else {
-                        speed = Vector2.zero;
+                        speed = Vector2.zero; // Mesafe sıfır olduğunda hızı sıfırlar
                     }
                 } else if (speed.magnitude < maxSpeed) {
                     if (accelerationDistance > 0) {
-                        speed += Time.fixedDeltaTime * distance.normalized * maxSpeed * maxSpeed /
-                            (2 * accelerationDistance);
+                        speed += Time.fixedDeltaTime * distance.normalized * maxSpeed * maxSpeed / (2 * accelerationDistance); // Hızlanma hesaplamaları
                     }
                     if (speed.magnitude > maxSpeed || accelerationDistance <= 0) {
-                        speed = distance.normalized * maxSpeed;
+                        speed = distance.normalized * maxSpeed; // Maksimum hız ayarlamaları
                     }
                 }
-                Vector3 newPos = Vector2.MoveTowards(transform.position, currentWaypoint.transform.position,
-                    speed.magnitude * Time.fixedDeltaTime);
+                Vector3 newPos = Vector2.MoveTowards(transform.position, currentWaypoint.transform.position, speed.magnitude * Time.fixedDeltaTime); // Yeni pozisyonu hesaplar
                 Vector2 velocity = newPos - transform.position;
                 if (speed.y > 0) {
-                    MoveObjects(velocity);
-                    transform.position = newPos;
+                    MoveObjects(velocity); // Objeleri hareket ettirir
+                    transform.position = newPos; // Platformun yeni pozisyonunu ayarlar
                 } else {
-                    transform.position = newPos;
-                    MoveObjects(velocity);
+                    transform.position = newPos; // Platformun yeni pozisyonunu ayarlar
+                    MoveObjects(velocity); // Objeleri hareket ettirir
                 }
                 distance = currentWaypoint.transform.position - transform.position;
                 if (distance.magnitude < 0.00001f) {
-                    speed = Vector2.zero;
-                    currentWaypoint = currentWaypoint.nextWaipoint;
-                    currentWaitTime = waitTime;
+                    speed = Vector2.zero; // Hız sıfırlanır
+                    currentWaypoint = currentWaypoint.nextWaipoint; // Bir sonraki hedef noktaya geçer
+                    currentWaitTime = waitTime; // Bekleme zamanını ayarlar
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Moves all the objs touching the platform along it's own direction
-    /// </summary>
-    /// <param name="velocity">Velocity in which the objs should be moved</param>
+    // Objeleri platformun hızında hareket ettirir
     private void MoveObjects(Vector2 velocity) {
         foreach (ObjectController2D obj in objs) {
             obj.Move(velocity);
         }
     }
 
-    /// <summary>
-    /// Sent when another object enters a trigger collider attached to this
-    /// object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
+    // Başka bir nesne platforma temas ettiğinde çağrılır
     void OnTriggerEnter2D(Collider2D other) {
         AttachObject(other);
     }
 
-    /// <summary>
-    /// Sent when another object enters a trigger collider attached to this
-    /// object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
+    // Başka bir nesne platformla temas halindeyken sürekli çağrılır
     void OnTriggerStay2D(Collider2D other) {
         AttachObject(other);
     }
 
-    /// <summary>
-    /// Tries to attach and obj to the platform if it's not already attached
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision</param>
+    // Nesneyi platforma bağlamaya çalışır
     private void AttachObject(Collider2D other) {
         if (crumbled) {
             return;
         }
         ObjectController2D obj = other.GetComponent<ObjectController2D>();
         if (obj && !objs.Contains(obj)) {
-            // doesn't attach to the obj if it's a 1 way platform and the obj is below it
+            // Platformun bir yönlü olup olmadığını ve nesnenin altında olup olmadığını kontrol eder
             if (pConfig.owPlatformMask == (pConfig.owPlatformMask | (1 << gameObject.layer)) &&
                 (obj.transform.position.y < transform.position.y || obj.TotalSpeed.y > 0)) {
                 return;
             } else {
-                objs.Add(obj);
+                objs.Add(obj); // Nesneyi listeye ekler
                 if (crumbleTime > 0 && currentCrumbleTime <= 0) {
                     if (!onlyPlayerCrumble || obj.GetComponent<PlayerController>()) {
-                        currentCrumbleTime = crumbleTime;
-                        animator.SetTrigger(ANIMATION_CRUMBLING);
+                        currentCrumbleTime = crumbleTime; // Çökme zamanını ayarlar
+                        animator.SetTrigger(ANIMATION_CRUMBLING); // Çökme animasyonunu tetikler
                     }
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Sent when another object leaves a trigger collider attached to
-    /// this object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
+    // Başka bir nesne platformdan ayrıldığında çağrılır
     void OnTriggerExit2D(Collider2D other) {
         ObjectController2D obj = other.GetComponent<ObjectController2D>();
         if (obj && objs.Contains(obj)) {
-            objs.Remove(obj);
-            obj.ApplyForce(speed);
+            objs.Remove(obj); // Nesneyi listeden çıkarır
+            obj.ApplyForce(speed); // Nesneye hız uygular
         }
     }
 
+    // Platformu yeniden oluşturur
     public void Restore() {
-        crumbled = false;
-        myCollider.enabled = true;
-        animator.SetTrigger(ANIMATION_RESTORE);
+        crumbled = false; // Çökme durumunu sıfırlar
+        myCollider.enabled = true; // Collider'ı etkinleştirir
+        animator.SetTrigger(ANIMATION_RESTORE); // Yeniden oluşma animasyonunu tetikler
     }
 }

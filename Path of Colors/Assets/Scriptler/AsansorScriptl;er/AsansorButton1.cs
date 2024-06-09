@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AsansorButton1 : MonoBehaviour
-{public AsansorScript elevator;
+{
+    public AsansorScript elevator;
     private bool playerInRange = false;
 
     void Update()

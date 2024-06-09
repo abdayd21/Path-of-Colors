@@ -45,22 +45,22 @@ MonoBehaviour:
   m_CornerSprites:
   - m_CornerType: 0
     m_Sprites:
-    - {fileID: 627442160978127915, guid: 149cb6fc5ca0efd4aaea643eb19801a8, type: 3}
+    - {fileID: 0}
   - m_CornerType: 1
     m_Sprites:
     - {fileID: 0}
   - m_CornerType: 2
     m_Sprites:
-    - {fileID: 4371639514282883593, guid: 149cb6fc5ca0efd4aaea643eb19801a8, type: 3}
+    - {fileID: 0}
   - m_CornerType: 3
     m_Sprites:
-    - {fileID: 627442160978127915, guid: 149cb6fc5ca0efd4aaea643eb19801a8, type: 3}
+    - {fileID: 0}
   - m_CornerType: 4
     m_Sprites:
-    - {fileID: -6821128609800797508, guid: 149cb6fc5ca0efd4aaea643eb19801a8, type: 3}
+    - {fileID: 0}
   - m_CornerType: 5
     m_Sprites:
-    - {fileID: -3315537631440467526, guid: 149cb6fc5ca0efd4aaea643eb19801a8, type: 3}
+    - {fileID: 0}
   - m_CornerType: 6
     m_Sprites:
     - {fileID: 0}
