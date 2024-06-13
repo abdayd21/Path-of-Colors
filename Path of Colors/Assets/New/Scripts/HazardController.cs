@@ -52,7 +52,7 @@ public class HazardController : MonoBehaviour {
             if (airStagger) {
                 character.SetAirStagger(stunDuration);
             }
-            PlayerController player = other.GetComponent<PlayerController>();
+            PlayerControllers player = other.GetComponent<PlayerControllers>();
             if (softRespawn && player) {
                 player.SoftRespawn();
             }

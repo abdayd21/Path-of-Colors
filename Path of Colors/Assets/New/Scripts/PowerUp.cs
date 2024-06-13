@@ -37,7 +37,7 @@ public class PowerUp : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D other) {
-        if (playerOnly && !other.GetComponent<PlayerController>()) {
+        if (playerOnly && !other.GetComponent<PlayerControllers>()) {
             return;
         }
         CharacterData character = other.GetComponent<CharacterData>();

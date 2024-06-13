@@ -135,7 +135,7 @@ public class PlatformController : MonoBehaviour {
             } else {
                 objs.Add(obj); // Nesneyi listeye ekler
                 if (crumbleTime > 0 && currentCrumbleTime <= 0) {
-                    if (!onlyPlayerCrumble || obj.GetComponent<PlayerController>()) {
+                    if (!onlyPlayerCrumble || obj.GetComponent<PlayerControllers>()) {
                         currentCrumbleTime = crumbleTime; // Çökme zamanını ayarlar
                         animator.SetTrigger(ANIMATION_CRUMBLING); // Çökme animasyonunu tetikler
                     }

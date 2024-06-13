@@ -46,7 +46,7 @@ public class CharacterController2D : ObjectController2D
     public bool Invulnerable => invulnerableTime > 0;
     public bool Immobile { get; set; }
     public bool Dashing { get; set; }
-
+    public bool isControlled = true;
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
@@ -81,9 +81,12 @@ public class CharacterController2D : ObjectController2D
         UpdateDash();
         UpdateAirStagger();
         collisions.Reset();
-        Move((TotalSpeed) * Time.fixedDeltaTime);
-        PostMove();
-        SetAnimations();
+        if (isControlled)
+        {
+            Move((TotalSpeed) * Time.fixedDeltaTime);
+            PostMove();
+            SetAnimations();
+        }
     }
 
     /*-------------------------*/

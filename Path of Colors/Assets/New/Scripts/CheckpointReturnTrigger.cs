@@ -17,7 +17,7 @@ public class CheckpointReturnTrigger : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D other) {
-        PlayerController pc = other.GetComponent<PlayerController>();
+        PlayerControllers pc = other.GetComponent<PlayerControllers>();
         if (pc) {
             if (hardCheckpoint) { } else {
                 pc.SoftRespawn();

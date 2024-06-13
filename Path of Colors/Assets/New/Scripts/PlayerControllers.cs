@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Deals with inputs for player characters
 /// </summary>
-public class PlayerController : MonoBehaviour {
+public class PlayerControllers : MonoBehaviour {
 
     public float softRespawnDelay = 0.5f;
     public float softRespawnDuration = 0.5f;
