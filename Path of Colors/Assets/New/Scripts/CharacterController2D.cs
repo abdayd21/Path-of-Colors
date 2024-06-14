@@ -67,14 +67,14 @@ public class CharacterController2D : ObjectController2D
     public override void FixedUpdate()
     {
         {
-            // Karakterin yönünü güncelle
+            // Karakterin yï¿½nï¿½nï¿½ gï¿½ncelle
             if (FacingRight)
             {
-                transform.localScale = new Vector3(1, 1, 1); // Sað tarafa bakmak için
+                transform.localScale = new Vector3(1, 1, 1); // Saï¿½ tarafa bakmak iï¿½in
             }
             else
             {
-                transform.localScale = new Vector3(-1, 1, 1); // Sol tarafa bakmak için
+                transform.localScale = new Vector3(-1, 1, 1); // Sol tarafa bakmak iï¿½in
             }
         }
         UpdateTimers();
@@ -370,16 +370,16 @@ public class CharacterController2D : ObjectController2D
                 if (direction != 0)
                 {
                     FacingRight = direction > 0;
-                    // SpriteRenderer kullanmadan yön deðiþtirme iþlemi yapýlacak
+                    // SpriteRenderer kullanmadan yï¿½n deï¿½iï¿½tirme iï¿½lemi yapï¿½lacak
                 }
                 return;
             }
 
-            // Merdiven kontrolü dýþýnda yön güncelleme
+            // Merdiven kontrolï¿½ dï¿½ï¿½ï¿½nda yï¿½n gï¿½ncelleme
             if (direction != 0)
             {
                 FacingRight = direction > 0;
-                // SpriteRenderer kullanmadan yön deðiþtirme iþlemi yapýlacak
+                // SpriteRenderer kullanmadan yï¿½n deï¿½iï¿½tirme iï¿½lemi yapï¿½lacak
             }
 
             float acc = 0f;
