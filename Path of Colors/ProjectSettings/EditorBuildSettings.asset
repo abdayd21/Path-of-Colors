@@ -5,12 +5,21 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   - enabled: 1
-    path: Assets/Scenes/Leveller/NewLevel.unity
-    guid: 1b36b94519213954fba3bb07a4f25248
+    path: Assets/Scenes/NewLevels/Level 1.unity
+    guid: c22fc9cd1f5346b409672fabed4863fb
+  - enabled: 1
+    path: Assets/Scenes/NewLevels/Level 2.unity
+    guid: 1a8eca4b665fd5144bc6043077a71e33
+  - enabled: 1
+    path: Assets/Scenes/NewLevels/Level 3.unity
+    guid: 3cf5544ec16d2b34087a9d0efca3f8c4
+  - enabled: 1
+    path: Assets/Scenes/NewLevels/Level 4.unity
+    guid: 993fbf562fb1c86488ba121ed0257138
+  - enabled: 1
+    path: Assets/Scenes/NewLevels/Level 5.unity
+    guid: 39a76195527ad684fa46f31f78d580d4
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: d1e2a5ddf38561e4185008a86b9bff32, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f862420eae8291b4cac78b5dc462f12e, type: 2}
