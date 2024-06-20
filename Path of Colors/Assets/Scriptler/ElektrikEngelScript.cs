@@ -17,23 +17,21 @@ public class ElektrikEngelScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         rb.isKinematic = true; // Başlangıçta kabloyu kinematik yap
-        col.isTrigger = true; // Collider'ı trigger olarak ayarla
+        col.isTrigger = false; // Collider'ı başlangıçta trigger olarak ayarlama
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        // Oyuncu karakteriyle çarpışma
+        // Herhangi bir obje ile çarpışma
         if (collision.gameObject.CompareTag(playerTag))
         {
             playerHealth.TakeDamage(amount);
-            // Örnek: collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(damage);
             Debug.Log("Player damaged by electric cable!");
         }
-        // Zeminle çarpışma
-        else if (collision.gameObject.CompareTag(groundTag))
+        else
         {
             rb.isKinematic = false; // Kablocu dinamik yap
-            col.isTrigger = false; // Collider'ı trigger olmaktan çıkar
+            col.isTrigger = true; // Collider'ı trigger yap
             Debug.Log("Electric cable grounded and became dynamic!");
         }
     }

@@ -3,8 +3,14 @@ using UnityEngine;
 public class SoulController : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public bool isControlled = false; // Kontrol altýnda olup olmadýðýný belirler
+    public bool isControlled = false; // Kontrol altï¿½nda olup olmadï¿½ï¿½ï¿½nï¿½ belirler
 
+    public Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         if (isControlled)
@@ -12,8 +18,8 @@ public class SoulController : MonoBehaviour
             float moveX = Input.GetAxis("Horizontal");
             float moveY = Input.GetAxis("Vertical");
 
-            Vector3 move = new Vector3(moveX, moveY, 0f);
-            transform.position += move * moveSpeed * Time.deltaTime;
+            Vector2 move = new Vector2(moveX, moveY);
+            rb.position+= move * moveSpeed * Time.deltaTime;
         }
     }
 }
