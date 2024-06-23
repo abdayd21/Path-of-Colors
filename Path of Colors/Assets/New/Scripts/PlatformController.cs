@@ -112,13 +112,13 @@ public class PlatformController : MonoBehaviour {
     }
 
     // Başka bir nesne platforma temas ettiğinde çağrılır
-    void OnCollisionEnter2D(Collision2D collision) {
-        AttachObject(collision.collider);
+    void OnTriggerEnter2D(Collider2D other) {
+        AttachObject(other);
     }
 
     // Başka bir nesne platformla temas halindeyken sürekli çağrılır
-    void OnCollisionStay2D(Collision2D collision) {
-        AttachObject(collision.collider);
+    void OnTriggerStay2D(Collider2D other) {
+        AttachObject(other);
     }
 
     // Nesneyi platforma bağlamaya çalışır
@@ -145,8 +145,8 @@ public class PlatformController : MonoBehaviour {
     }
 
     // Başka bir nesne platformdan ayrıldığında çağrılır
-    void OnCollisionExit2D(Collision2D collision) {
-        ObjectController2D obj = collision.collider.GetComponent<ObjectController2D>();
+    void OnTriggerExit2D(Collider2D other) {
+        ObjectController2D obj = other.GetComponent<ObjectController2D>();
         if (obj && objs.Contains(obj)) {
             objs.Remove(obj); // Nesneyi listeden çıkarır
             obj.ApplyForce(speed); // Nesneye hız uygular

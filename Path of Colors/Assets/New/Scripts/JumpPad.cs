@@ -19,12 +19,12 @@ public class JumpPad : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sent when another object enters a collider attached to this
+    /// Sent when another object enters a trigger collider attached to this
     /// object (2D physics only).
     /// </summary>
-    /// <param name="collision">The Collision2D data associated with this collision.</param>
-    void OnCollisionEnter2D(Collision2D collision) {
-        ObjectController2D obj = collision.collider.GetComponent<ObjectController2D>();
+    /// <param name="other">The other Collider2D involved in this collision.</param>
+    void OnTriggerEnter2D(Collider2D other) {
+        ObjectController2D obj = other.GetComponent<ObjectController2D>();
         if (obj) {
             obj.SetForce(force);
             obj.IgnoreFriction = true;
