@@ -13,12 +13,13 @@ public class AsansorButton1 : MonoBehaviour
     public CinemachineVirtualCamera[] bosCameras;
 
     public float cameraSwitchBackTime = 2.0f; // Kameranın geri dönme süresi
+    public float cameraDestroyTime = 0.0f; //
     private bool isSwitched = false; // Kameranın değiştirilip değiştirilmediğini kontrol eden bayrak
 
     void Update()
     {
         // Eğer oyuncu butonun alanındaysa ve T tuşuna basıldıysa
-        if (playerInRange && Input.GetKeyDown(KeyCode.T))
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             platformController.MovePlatform(); // MovePlatform metodunu çağır
             // Belirtilen objeleri 0.5 saniye sonra yok et
